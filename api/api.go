@@ -21,11 +21,17 @@ type (
 		OrderID OrderID `json:"order_id"`
 	}
 
+	Limit struct {
+		Price       Price   `json:"price"`
+		Orders      []Order `json:"orders"`
+		TotalVolume Size    `json:"total_volume"`
+	}
+
 	OrderBookData struct {
 		TotalAskVolume Size    `json:"total_ask_volume"`
 		TotalBidVolume Size    `json:"total_bid_volume"`
-		Asks           []Order `json:"asks"`
-		Bids           []Order `json:"bids"`
+		Asks           []Limit `json:"asks"`
+		Bids           []Limit `json:"bids"`
 	}
 
 	Order struct {

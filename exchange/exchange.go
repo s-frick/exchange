@@ -2,6 +2,7 @@ package exchange
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -136,17 +137,26 @@ func (ex *Exchange) handleMatches(matches []orderbook.Match, market api.Market) 
 	return nil
 }
 
-func collectOrders(limits []*orderbook.Limit) []api.Order {
-	orders := make([]api.Order, 0)
+func collectOrders(limits []*orderbook.Limit) []api.Limit {
+	ls := make([]api.Limit, 0)
 	for _, limit := range limits {
+		orders := make([]api.Order, 0)
 		for _, order := range limit.Orders {
 			order := api.Order{
+				Price:     order.Limit.Price,
 				Size:      order.Size,
 				BidAsk:    order.BidAsk,
 				Timestamp: order.Timestamp,
 			}
 			orders = append(orders, order)
 		}
+		l := api.Limit{
+			Price:       limit.Price,
+			Orders:      orders,
+			TotalVolume: limit.TotalVolume,
+		}
+		ls = append(ls, l)
 	}
-	return orders
+	fmt.Printf("collectOrders: %+v\n", ls)
+	return ls
 }

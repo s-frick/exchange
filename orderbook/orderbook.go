@@ -91,6 +91,7 @@ func (ob *Orderbook) PlaceLimitOrder(price api.Price, o *Order) {
 	}
 	ob.Orders[o.ID] = o
 	limit.AddOrder(o)
+	fmt.Printf("limit: %v\n", limit)
 }
 
 func (ob *Orderbook) PlaceMarketOrder(o *Order) []Match {
